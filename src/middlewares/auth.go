@@ -25,6 +25,7 @@ func IsAuthentivated(c *fiber.Ctx) error {
 	return c.Next()
 }
 
+// ふろんとからのcookieに対して、db上のuser_idを返す(認証情報の抽出)
 func GetUser(c *fiber.Ctx) (uint, error) {
 	cookie := c.Cookies("jwt")
 

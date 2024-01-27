@@ -15,7 +15,6 @@ import (
 // curl http://localhost:8000/api/admin/register/ -X POST -H "Content-Type: application/json" -d '{"first_name": "a", "last_name": "a", "email": "a@.com", "password": "a", "password_confirm": "a"}'
 // todo:ここにメールアドレスがユニークである前提で、登録されているメールアドレスがある場合のエラーハンドリングが必要。
 func Register(c *fiber.Ctx) error {
-	// {"strint": "string", ...}
 	var data map[string]string
 
 	if err := c.BodyParser(&data); err != nil {
@@ -114,6 +113,7 @@ func Login(c *fiber.Ctx) error {
 // フロントから送られてきたcookieの情報をもとにそのユーザーのプロファイルを取得する。GETメソッド "認証機能"
 // curl --location 'localhost:8000/api/admin/user/' \
 // --header 'Cookie: jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDUyOTY1NTIsInN1YiI6IjIifQ.VvhMnDsLVXbMK5GYACOcVdst076S61dKcCZDfaEw12E'
+// CtxはRESTによって取得されるヘッダー、クエストボディ、メソッド、クッキー情報等を定義した構造体
 func User(c *fiber.Ctx) error {
 	// // middlewaresに移動
 	// cookie := c.Cookies("jwt")
@@ -131,7 +131,13 @@ func User(c *fiber.Ctx) error {
 
 	// payload := token.Claims.(*jwt.StandardClaims)
 
-	id, _ := middlewares.GetUser(c)
+	id, err := middlewares.GetUser(c)
+
+	if err != nil {
+		return c.JSON(fiber.Map{
+			"message": "cookie is not match in your profile!",
+		})
+	}
 
 	var user models.User
 
@@ -165,11 +171,11 @@ func UpdateInfo(c *fiber.Ctx) error {
 	id, _ := middlewares.GetUser(c)
 
 	user := models.User{
-		Id:        id,
 		FirstName: data["first_name"],
 		LastName:  data["last_name"],
 		Email:     data["email"],
 	}
+	user.Id = id
 
 	database.DB.Model(&user).Updates(&user)
 
@@ -192,9 +198,8 @@ func UpdatePassword(c *fiber.Ctx) error {
 
 	id, _ := middlewares.GetUser(c)
 
-	user := models.User{
-		Id: id,
-	}
+	user := models.User{}
+	user.Id = id
 
 	user.SetPassword(data["password"])
 

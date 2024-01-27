@@ -44,9 +44,8 @@ func GetProducts(c *fiber.Ctx) error {
 func UpdateProduct(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 
-	product := models.Product{
-		Id: uint(id),
-	}
+	product := models.Product{}
+	product.Id = uint(id)
 
 	if err := c.BodyParser(&product); err != nil {
 		return err
@@ -60,9 +59,8 @@ func UpdateProduct(c *fiber.Ctx) error {
 func DeleteProducts(c *fiber.Ctx) error {
 	id, _ := strconv.Atoi(c.Params("id"))
 
-	product := models.Product{
-		Id: uint(id),
-	}
+	product := models.Product{}
+	product.Id = uint(id)
 
 	database.DB.Delete(&product)
 

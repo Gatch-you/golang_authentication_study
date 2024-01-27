@@ -1,26 +1,28 @@
 package main
 
-import (
-	"ambassador/src/database"
-	"ambassador/src/models"
+// このファイルは直接スクリプトコマンドにて実行し、ダミーデータを作成するもの。同じディレクトリのmain()と被るため使用時以外はコメントアウト
 
-	"github.com/bxcodec/faker/v3"
-)
+// import (
+// 	"ambassador/src/database"
+// 	"ambassador/src/models"
 
-func main() {
+// 	"github.com/bxcodec/faker/v3"
+// )
 
-	database.Connect()
+// func main() {
 
-	for i := 0; i < 30; i++ {
-		ambassador := models.User{
-			FirstName:    faker.FirstName(),
-			LastName:     faker.LastName(),
-			Email:        faker.Email(),
-			IsAmbassador: true,
-		}
+// 	database.Connect()
 
-		ambassador.SetPassword("1234")
+// 	for i := 0; i < 30; i++ {
+// 		ambassador := models.User{
+// 			FirstName:    faker.FirstName(),
+// 			LastName:     faker.LastName(),
+// 			Email:        faker.Email(),
+// 			IsAmbassador: true,
+// 		}
 
-		database.DB.Create(&ambassador)
-	}
-}
+// 		ambassador.SetPassword("1234")
+
+// 		database.DB.Create(&ambassador)
+// 	}
+// }
