@@ -9,7 +9,13 @@ import (
 )
 
 func Link(c *fiber.Ctx) error {
-	id, _ := strconv.Atoi(c.Params("id"))
+	id, err := strconv.Atoi(c.Params("id"))
+
+	if err != nil {
+		return c.JSON(fiber.Map{
+			"message": err.Error(),
+		})
+	}
 
 	var links []models.Link
 

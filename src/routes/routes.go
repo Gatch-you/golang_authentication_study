@@ -28,4 +28,16 @@ func Setup(app *fiber.App) {
 	adminAuthenticated.Delete("products/:id", controllers.DeleteProducts)
 	adminAuthenticated.Get("users/:id/links", controllers.Link)
 	adminAuthenticated.Get("orders", controllers.Orders)
+
+	ambassador := api.Group("ambassador")
+	ambassador.Post("register", controllers.Register)
+	ambassador.Post("login", controllers.Login)
+
+	ambassadorAuthentivated := ambassador.Use(middlewares.IsAuthentivated)
+	ambassadorAuthentivated.Get("user", controllers.User)
+	ambassadorAuthentivated.Post("logout", controllers.Logout)
+	ambassadorAuthentivated.Put("user/info", controllers.UpdateInfo)
+	ambassadorAuthentivated.Put("user/password", controllers.UpdatePassword)
+	ambassadorAuthentivated.Get("frontend", controllers.UpdatePassword)
+	ambassadorAuthentivated.Get("backend", controllers.UpdatePassword)
 }

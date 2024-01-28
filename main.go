@@ -15,6 +15,7 @@ func main() {
 	time.Sleep(time.Second * 2)
 	database.Connect()
 	database.AutoMigrate()
+	database.SetupRedis()
 
 	app := fiber.New()
 
