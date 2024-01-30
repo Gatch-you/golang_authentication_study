@@ -17,6 +17,7 @@ type ClaimsWithScope struct {
 	Scope string
 }
 
+// 認証プロセス
 func IsAuthentivated(c *fiber.Ctx) error {
 	cookie := c.Cookies("jwt")
 

@@ -5,7 +5,6 @@ go 1.20
 require (
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gofiber/fiber/v2 v2.52.0
 	golang.org/x/crypto v0.18.0

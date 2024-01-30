@@ -32,12 +32,15 @@ func Setup(app *fiber.App) {
 	ambassador := api.Group("ambassador")
 	ambassador.Post("register", controllers.Register)
 	ambassador.Post("login", controllers.Login)
+	ambassador.Get("products/frontend", controllers.ProductsFrontend)
+	ambassador.Get("products/backend", controllers.ProductsBackend)
 
 	ambassadorAuthentivated := ambassador.Use(middlewares.IsAuthentivated)
 	ambassadorAuthentivated.Get("user", controllers.User)
 	ambassadorAuthentivated.Post("logout", controllers.Logout)
 	ambassadorAuthentivated.Put("user/info", controllers.UpdateInfo)
 	ambassadorAuthentivated.Put("user/password", controllers.UpdatePassword)
-	ambassadorAuthentivated.Get("frontend", controllers.UpdatePassword)
-	ambassadorAuthentivated.Get("backend", controllers.UpdatePassword)
+	ambassadorAuthentivated.Post("links", controllers.CreateLink)
+	ambassadorAuthentivated.Get("stats", controllers.Stats)
+	ambassadorAuthentivated.Get("rankings", controllers.Rankings)
 }
