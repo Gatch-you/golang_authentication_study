@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"ambassador/src/database"
 	"ambassador/src/routes"
 
@@ -11,8 +9,8 @@ import (
 )
 
 func main() {
+	// arrow_origin := os.Getenv("ACCESS_ALLOW_ORIGIN")
 
-	time.Sleep(time.Second * 2)
 	database.Connect()
 	database.AutoMigrate()
 	database.SetupRedis()
@@ -20,8 +18,10 @@ func main() {
 
 	app := fiber.New()
 
+	// どうやらReactアプリケーション間の通信はワイルドカード使えないようなので自身で設定しとく
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,
+		AllowOrigins:     "http://localhost:3000",
 	}))
 
 	routes.Setup(app)
